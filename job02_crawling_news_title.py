@@ -50,8 +50,4 @@ for i in range(0, 6):  # section    #섹션 반복(섹션은 0부터 시작함)
             df_title = pd.concat([df_title, df_section_title], ignore_index=True)
             df_title.to_csv('./crawling_data/crawling_data_{}_{}.csv'.format(category[i],j),index=False)
             titles=[]
-#     df_section_title = pd.DataFrame(titles, columns=['title'])
-#     df_section_title['category'] = category[i]
-#     df_title = pd.concat([df_title, df_section_title], ignore_index=True)
-# print(df_title.head())
-# print(df_title.category.value_counts())
+
