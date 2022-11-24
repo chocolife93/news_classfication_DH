@@ -33,7 +33,7 @@ for i in range(6):
         # print(title_tag.text) # 뉴스타이틀 모음
         title = title_tag.text
         # print(title)
-        title = re.compile('[^가-힣]').sub(' ', title) # 한글만 빼고 문장부호,영어,한자 등등 다 빈칸으로 교체 ; ^ : 뒤에꺼 빼고,반전 ; 가-힣 : 한글 '가'부터 '힣'까지 ; .sub(' ',title) : 빈칸으로 교체
+        title = re.compile('[^가-힣 ]').sub(' ', title) # 한글만 빼고 문장부호,영어,한자 등등 다 빈칸으로 교체 ; ^ : 뒤에꺼 빼고,반전 ; 가-힣 : 한글 '가'부터 '힣'까지 ; .sub(' ',title) : 빈칸으로 교체
         # print(title)
         titles.append(title)
     df_section_titles = pd.DataFrame(titles, columns=['titles'])
