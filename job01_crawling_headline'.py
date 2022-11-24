@@ -21,15 +21,19 @@ headers = {'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit
 df_titles = pd.DataFrame()
 for i in range(6):
     url = 'https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=10{}'.format(i)
-    resp = requests.get(url, headers=headers)
+    resp = requests.get(url, headers=headers) # 문자열로 받음
     # print(list(resp))
     soup = BeautifulSoup(resp.text, 'html.parser') # html문서형태로 보기좋게 바꿔줌
-    # print(soup)
-    title_tags = soup.select('.cluster_text_headline') # .을 붙이면 class =>> soup안에 cluster_text_headline이라는 클래스를 가진 텍스트를 뽑음
+    # print(soup) #
+    title_tags = soup.select('.cluster_text_headline') # .을 붙이면 class =>> soup안에 cluster_text_headline이라는 클래스(html의 클래스)를 가진 텍스트를 뽑음
     titles = []
     for title_tag in title_tags :
         # print(title_tag.text) # 뉴스타이틀 모음
-        titles.append(title_tag)
+        title = title_tag.text
+        # print(title)
+        title = re.compile('[^가-힣]').sub(' ', title) # 한글만 빼고 문장부호,영어,한자 등등 다 빈칸으로 교체 ; ^ : 뒤에꺼 빼고,반전 ; 가-힣 : 한글 '가'부터 '힣'까지 ; .sub(' ',title) : 빈칸으로 교체
+        # print(title)
+        titles.append(title)
     df_section_titles = pd.DataFrame(titles, columns=['titles'])
     df_section_titles['category'] = category[i]
     df_titles = pd.concat([df_titles, df_section_titles], axis='rows', ignore_index=True)
