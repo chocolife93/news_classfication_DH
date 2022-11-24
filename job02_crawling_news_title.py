@@ -12,7 +12,7 @@ category = ['Politics', 'Economic', 'social', 'Culture', 'World', 'IT']
 pages = [100, 100, 100, 70, 93, 72] # 마지막 페이지에는 뉴스가 꽉 채워져있지 않을 수도 있으므로 그 전 페이지까지만 취급
 
 options = webdriver.ChromeOptions()
-# options.add_argument('headless')
+# options.add_argument('headless') # 브라우저를 안띄움
 options.add_argument('lang=kr_KR')
 driver = webdriver.Chrome('./chromedriver', options=options) # 인터넷에서 자신이 쓰는 크롬의 버전과 같은 버전으로 크롬드라이버.exe파일을 설치해야함
 # x_path = '//*[@id="section_body"]/ul[1]/li[1]/dl/dt[2]/a' # @@@@@ xpath가 뭔지 공부
@@ -21,7 +21,7 @@ driver = webdriver.Chrome('./chromedriver', options=options) # 인터넷에서 �
 df_title = pd.DataFrame()
 for i in range(0, 6):  # section    #섹션 반복(섹션은 0부터 시작함)
     titles = []
-    for j in range(1, 11):  #page # 페이지 반복(페이지는 1부터 시작함)
+    for j in range(1, pages[i]+1):  #page # 페이지 반복(페이지는 1부터 시작함)
         url = 'https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=10{}#&date=%2000:00:00&page={}'.format(i,j)
         driver.get(url)
         time.sleep(0.2) # driver가 0.2초동안
