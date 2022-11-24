@@ -19,7 +19,7 @@ driver = webdriver.Chrome('./chromedriver', options=options) # 인터넷에서 �
 # title = driver.find_element('xpath',x_path).text
 # print(title)
 df_title = pd.DataFrame()
-for i in range(0, 6):  # section    #섹션 반복(섹션은 0부터 시작함)
+for i in range(2, 4):  # section    #섹션 반복(섹션은 0부터 시작함)
     titles = []
     for j in range(1, pages[i]+1):  #page # 페이지 반복(페이지는 1부터 시작함)
         url = 'https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=10{}#&date=%2000:00:00&page={}'.format(i,j)
@@ -38,12 +38,15 @@ for i in range(0, 6):  # section    #섹션 반복(섹션은 0부터 시작함)
                     title = re.compile('[^가-힣 ]').sub(' ',title)
                     titles.append(title)
                 except NoSuchElementException as e:     # 이미지가 없는 뉴스도 크롤링할 수 있도록 코드작성
-                    x_path = '//*[@id="section_body"]/ul[{}]/li[{}]/dl/dt/a'.format(k, l)
-                    title = driver.find_element('xpath', x_path).text
-                    title = re.compile('[^가-힣 ]').sub(' ', title)
-                    titles.append(title)
+                    try:
+                        x_path = '//*[@id="section_body"]/ul[{}]/li[{}]/dl/dt/a'.format(k, l)
+                        title = driver.find_element('xpath', x_path).text
+                        title = re.compile('[^가-힣 ]').sub(' ', title)
+                        titles.append(title)
+                    except:
+                        print('error', i, j, k, l)
                 except:
-                    print('error',i,j,k,l)
+                    print('error', i, j, k, l)
         if j % 10 ==0:  # 중간에 에러가 날 것을 대비하여 중간저장 ; 크롤링은 네트워크 통신 환경에 영향을 많이받음 -> 에러가 날 것을 가정으로 코딩해야한다
             df_section_title = pd.DataFrame(titles, columns=['title'])
             df_section_title['category'] = category[i]
