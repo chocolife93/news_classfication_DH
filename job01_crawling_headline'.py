@@ -1,3 +1,5 @@
+# requests를 사용한 크롤링 방법 : url주소가 정리가 잘 되어있어서 for문을 돌려 크롤링을 함 ; 하지만 정리가 잘 되어있는 홈페이지가 많이 없어 driver를 쓰는 방법이 더 많다.
+
 from bs4 import BeautifulSoup
 import requests # url주소를 가진 서버에 요청을 함
 import re
@@ -39,5 +41,5 @@ for i in range(6):
     df_titles = pd.concat([df_titles, df_section_titles], axis='rows', ignore_index=True)
 print(df_titles)
 print(df_titles.category.value_counts())
-df_titles.to_csv('./crawlind_data/naver_headline_news_{}.csv'.format(
+df_titles.to_csv('./crawling_data/naver_headline_news_{}.csv'.format(
     datetime.datetime.now().strftime('%Y%m%d')), index=False)
